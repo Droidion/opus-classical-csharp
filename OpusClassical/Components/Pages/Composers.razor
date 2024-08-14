@@ -1,0 +1,48 @@
+@page "/"
+@using OpusClassical.Helpers
+@using OpusClassical.Models
+@using OpusClassical.Repositories
+@inject PeriodRepository PeriodRepo
+@inject ComposerRepository ComposerRepo
+
+<div>
+    <h1>Composers</h1>
+    @foreach (var period in _periodsData)
+    {
+        <h2>
+            <span>@period.Period.Name</span>
+            <span> </span>
+            <span>@HelperFunctions.FormatYearsRangeString(period.Period.YearEnd, period.Period.YearEnd)</span>
+        </h2>
+        <hr/>
+        <div class="mb-4 flex flex-wrap">
+            @foreach (var composer in period.Composers)
+            {
+                <a href="/composer/@composer.Slug">
+                    <ComposerCard Composer="@composer"></ComposerCard>
+                </a>
+            }
+        </div>
+    }
+</div>
+
+@code {
+
+    record PeriodsData(Period Period, IEnumerable<Composer> Composers);
+
+    private IEnumerable<PeriodsData> _periodsData = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        var periods = await PeriodRepo.GetAllPeriods();
+        var composers = await ComposerRepo.GetAllComposers();
+        _periodsData = periods.Select(period =>
+        {
+            return new PeriodsData(
+                period,
+                composers.Where(c => c.PeriodId == period.Id)
+            );
+        });
+    }
+
+}

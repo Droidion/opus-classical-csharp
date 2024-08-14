@@ -1,0 +1,17 @@
+@using OpusClassical.Helpers
+@using OpusClassical.Models
+<div class="mb-3 mr-6">
+    <div>
+        <span>@Composer?.LastName,&nbsp;</span>
+        <span class="font-light">@Composer?.FirstName</span>
+    </div>
+    <div class="text-xs font-light whitespace-nowrap">
+        <span>@Composer?.Countries</span>
+        <span class="vertical-separator"></span>
+        <span>@HelperFunctions.FormatYearsRangeString(Composer?.YearBorn, Composer?.YearDied)</span>
+    </div>
+</div>
+
+@code {
+    [Parameter] public Composer? Composer { get; init; }
+}

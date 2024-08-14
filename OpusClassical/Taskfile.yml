@@ -1,0 +1,12 @@
+version: '3'
+
+tasks:
+  dotnet:
+    cmds:
+      - dotnet watch
+  tailwind:
+    cmds:
+      - tailwindcss -i ./Assets/app.css -o ./wwwroot/app.css
+  dev:
+    cmds:
+      - task --parallel tailwind dotnet
