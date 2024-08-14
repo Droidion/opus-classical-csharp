@@ -12,6 +12,9 @@ builder.Services.AddDbContext<ApplicationDbContext>();
 builder.Services.AddScoped<PeriodRepository>();
 builder.Services.AddScoped<ComposerRepository>();
 builder.Services.AddScoped<WorkRepository>();
+builder.Services.AddScoped<RecordingRepository>();
+builder.Services.AddScoped<PeriodRepository>();
+builder.Services.AddScoped<LinkRepository>();
 
 var supabase = new Client(envConfig.SupabaseUrl, envConfig.SupabaseKey, new SupabaseOptions
 {
