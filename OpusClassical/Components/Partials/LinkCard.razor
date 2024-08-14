@@ -1,0 +1,14 @@
+@using OpusClassical.Models
+<div class="mr-2 mt-2">
+    <a href="@Link?.LinkPrefix@Link?.RecordingLink">
+        <img
+            src="/static/@Link?.Icon"
+            height="24"
+            width="24"
+            alt="@Link?.Streamer"/>
+    </a>
+</div>
+
+@code {
+    [Parameter] public Link? Link { get; init; }
+}
