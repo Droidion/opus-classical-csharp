@@ -40,7 +40,7 @@
         {
             return new PeriodsData(
                 period,
-                composers.Where(c => c.PeriodId == period.Id)
+                composers.Where(c => c.PeriodId == period.Id).OrderBy(c => c.LastName)
             );
         });
     }

@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
     content: ["./Components/**/*.razor"],
     darkMode: "selector",
     theme: {
@@ -10,6 +10,7 @@ module.exports = {
             cinnamon: "#7E5503",
             white: "#FFFFFF",
             black: "#000000",
+            inherit: "inherit",
         },
     },
     plugins: [],

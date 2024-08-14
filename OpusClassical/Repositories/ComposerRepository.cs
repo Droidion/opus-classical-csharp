@@ -9,4 +9,9 @@ public class ComposerRepository(ApplicationDbContext context)
     {
         return await context.Composers.ToListAsync();
     }
+
+    public async Task<Composer?> GetComposerBySlug(string slug)
+    {
+        return await context.Composers.FirstOrDefaultAsync(c => c.Slug == slug);
+    }
 }

@@ -6,6 +6,7 @@ public class ApplicationDbContext(EnvironmentConfig env) : DbContext
 {
     public DbSet<Period> Periods { get; init; }
     public DbSet<Composer> Composers { get; init; }
+    public DbSet<Work> Works { get; init; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -18,5 +19,6 @@ public class ApplicationDbContext(EnvironmentConfig env) : DbContext
     {
         modelBuilder.Entity<Period>().ToTable("periods");
         modelBuilder.Entity<Composer>().ToTable("composers_with_countries");
+        modelBuilder.Entity<Work>().ToTable("works_with_genres");
     }
 }

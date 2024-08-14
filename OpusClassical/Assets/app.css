@@ -33,7 +33,7 @@
     }
 
     a {
-        @apply hover:underline;
+        @apply hover:text-inherit hover:underline;
     }
 }
 
@@ -43,6 +43,6 @@
     }
 
     .vertical-separator {
-        @apply relative top-0.5 mx-1.5 inline-block h-4 w-px bg-black/20 dark:bg-white/20;
+        @apply relative top-0.5 mx-1.5 inline-block h-3 w-px bg-black/20 dark:bg-white/20;
     }
 }

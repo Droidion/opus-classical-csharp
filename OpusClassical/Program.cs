@@ -11,6 +11,7 @@ builder.Services.AddSingleton(envConfig);
 builder.Services.AddDbContext<ApplicationDbContext>();
 builder.Services.AddScoped<PeriodRepository>();
 builder.Services.AddScoped<ComposerRepository>();
+builder.Services.AddScoped<WorkRepository>();
 
 var supabase = new Client(envConfig.SupabaseUrl, envConfig.SupabaseKey, new SupabaseOptions
 {

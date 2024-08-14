@@ -68,7 +68,7 @@ public static class HelperFunctions
     /// <summary>
     ///     FormatCatalogueName formats catalogue name of the musical work, like "BWV 12p".
     /// </summary>
-    public static string FormatCatalogueName(string catalogueName, int? catalogueNumber, string cataloguePostfix)
+    public static string FormatCatalogueName(string? catalogueName, int? catalogueNumber, string? cataloguePostfix)
     {
         if (string.IsNullOrWhiteSpace(catalogueName) || !catalogueNumber.HasValue) return string.Empty;
         return $"{catalogueName} {catalogueNumber.Value}{cataloguePostfix}";
@@ -77,12 +77,12 @@ public static class HelperFunctions
     /// <summary>
     ///     FormatWorkName formats music work full name, like "Symphony No. 9 Great".
     /// </summary>
-    public static string FormatWorkName(string workTitle, int? workNo, string workNickname)
+    public static string FormatWorkName(string? workTitle, int? workNo, string? workNickname)
     {
-        if (string.IsNullOrWhiteSpace(workTitle)) return string.Empty;
+        if (workTitle is null) return string.Empty;
         var workName = workTitle;
         if (workNo.HasValue) workName = $"{workName} No. {workNo.Value}";
-        if (!string.IsNullOrWhiteSpace(workNickname)) workName = $"{workName} {workNickname}";
+        if (workNickname is not null) workName = $"{workName} {workNickname}";
         return workName;
     }
 }

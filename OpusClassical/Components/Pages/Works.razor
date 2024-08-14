@@ -1,0 +1,65 @@
+@page "/composer/{Slug}"
+@using OpusClassical.Helpers
+@using OpusClassical.Models
+@using OpusClassical.Repositories
+@inject WorkRepository WorkRepo
+@inject ComposerRepository ComposerRepo
+
+<div>
+    <h1>
+        <span>@_composer?.FirstName</span>
+        <span>&nbsp;</span>
+        <span>@_composer?.LastName</span>
+    </h1>
+    <div class="mb-4 w-full text-center">
+        <span>@_composer?.Countries</span>
+        <span class="vertical-separator"></span>
+        <span>@HelperFunctions.FormatYearsRangeString(_composer?.YearBorn, _composer?.YearDied)</span>
+        @if (_composer?.WikipediaLink is not null)
+        {
+            <span class="vertical-separator"></span>
+            <a href="@_composer?.WikipediaLink">Wikipedia</a>
+        }
+        @if (_composer?.ImslpLink is not null)
+        {
+            <span class="vertical-separator"></span>
+            <a href="@_composer?.ImslpLink">IMSLP</a>
+        }
+    </div>
+    @foreach (var work in _worksByPeriods)
+    {
+        <h2>@work.GenreName</h2>
+        <hr/>
+        <div class="mb-4 flex flex-wrap">
+            @foreach (var w in work.Works)
+            {
+                <a href="/composer/@_composer?.Slug/work/@w.Id">
+                    <WorkCard Work="w"></WorkCard>
+                </a>
+            }
+        </div>
+    }
+</div>
+
+@code {
+
+    record WorksByPeriod(int GenreId, string GenreName, IEnumerable<Work> Works);
+
+    [Parameter] public string? Slug { get; set; }
+
+    private Composer? _composer;
+    private IEnumerable<WorksByPeriod> _worksByPeriods = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Slug is null) return;
+        _composer = await ComposerRepo.GetComposerBySlug(Slug);
+        if (_composer is null) return;
+        var works = await WorkRepo.GetWorksByComposerId(_composer.Id);
+        _worksByPeriods = works
+            .GroupBy(w => new { w.GenreId, w.GenreName })
+            .Select(g => new WorksByPeriod(g.Key.GenreId, g.Key.GenreName, g.ToList()))
+            .ToList();
+    }
+
+}

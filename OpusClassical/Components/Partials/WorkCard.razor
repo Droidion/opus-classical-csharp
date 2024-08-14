@@ -1,0 +1,35 @@
+@using OpusClassical.Helpers
+@using OpusClassical.Models
+<div class="mb-3 mr-6">
+    <div>
+        <span>@HelperFunctions.FormatWorkName(Work?.Title, Work?.No, Work?.Nickname)</span>
+    </div>
+    <div class="text-xs font-light">
+        @if (Work?.CatalogueName is not null)
+        {
+            <span>@HelperFunctions.FormatCatalogueName(Work?.CatalogueName, Work?.CatalogueNumber, Work?.CataloguePostfix)</span>
+            @if (Work?.YearStart is not null || Work?.YearFinish is not null || Work?.AverageMinutes is not null)
+            {
+                <span class="vertical-separator"></span>
+            }
+        }
+
+        @if (Work?.YearStart is not null || Work?.YearFinish is not null)
+        {
+            <span>@HelperFunctions.FormatYearsRangeString(Work?.YearStart, Work?.YearFinish)</span>
+            @if (Work?.AverageMinutes is not null)
+            {
+                <span class="vertical-separator"></span>
+            }
+        }
+
+        @if (Work?.AverageMinutes is not null)
+        {
+            @HelperFunctions.FormatWorkLength(Work?.AverageMinutes)
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public Work? Work { get; init; }
+}
