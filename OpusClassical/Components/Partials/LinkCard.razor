@@ -1,6 +1,6 @@
 @using OpusClassical.Models
 <div class="mr-2 mt-2">
-    <a href="@Link?.LinkPrefix@Link?.RecordingLink">
+    <a href="@FullLink()">
         <img
             src="/static/@Link?.Icon"
             height="24"
@@ -11,4 +11,10 @@
 
 @code {
     [Parameter] public Link? Link { get; init; }
+
+    string FullLink()
+    {
+        return Link?.LinkPrefix + Link?.RecordingLink;
+    }
+
 }

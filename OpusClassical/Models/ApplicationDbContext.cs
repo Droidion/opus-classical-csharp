@@ -24,7 +24,7 @@ public class ApplicationDbContext(EnvironmentConfig env) : DbContext
         modelBuilder.Entity<Composer>().ToTable("composers_with_countries");
         modelBuilder.Entity<Work>().ToTable("works_with_genres");
         modelBuilder.Entity<Recording>().ToTable("recordings_with_labels");
-        modelBuilder.Entity<Performer>().ToTable("performers_with_instruments");
-        modelBuilder.Entity<Link>().ToTable("links_with_streamers");
+        modelBuilder.Entity<Performer>().HasNoKey().ToTable("performers_with_instruments");
+        modelBuilder.Entity<Link>().HasNoKey().ToTable("links_with_streamers");
     }
 }

@@ -5,7 +5,7 @@ namespace OpusClassical.Repositories;
 
 public class WorkRepository(ApplicationDbContext context)
 {
-    public async Task<Work?> GetWorkBySlug(int workId)
+    public async Task<Work?> GetWorkById(int workId)
     {
         return await context.Works.FirstOrDefaultAsync(w => w.Id == workId);
     }

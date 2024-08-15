@@ -13,6 +13,7 @@ public class EnvironmentConfig
             SupabaseUrl = EnvReader.GetStringValue("SUPABASE_URL");
             SupabaseKey = EnvReader.GetStringValue("SUPABASE_KEY");
             DatabaseConnectionString = EnvReader.GetStringValue("DATABASE_CONNECTION_STRING");
+            ImagesUrl = EnvReader.GetStringValue("IMAGES_URL");
         }
         catch (Exception ex)
         {
@@ -24,4 +25,5 @@ public class EnvironmentConfig
     public string SupabaseUrl { get; }
     public string SupabaseKey { get; }
     public string DatabaseConnectionString { get; }
+    public string ImagesUrl { get; }
 }
