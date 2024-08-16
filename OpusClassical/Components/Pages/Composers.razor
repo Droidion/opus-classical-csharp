@@ -1,5 +1,4 @@
 @page "/"
-@using OpusClassical.Helpers
 @using OpusClassical.Models
 @using OpusClassical.Repositories
 @inject PeriodRepository PeriodRepo
@@ -7,20 +6,14 @@
 
 <div>
     <h1>Composers</h1>
-    @foreach (var period in _periodsData)
+    @foreach (var period in ComposersByPeriod)
     {
-        <h2>
-            <span>@period.Period.Name</span>
-            <span> </span>
-            <span>@HelperFunctions.FormatYearsRangeString(period.Period.YearEnd, period.Period.YearEnd)</span>
-        </h2>
+        <PeriodHeader Period="period.Period"/>
         <hr/>
         <div class="mb-4 flex flex-wrap">
             @foreach (var composer in period.Composers)
             {
-                <a href="/composer/@composer.Slug">
-                    <ComposerCard Composer="@composer"></ComposerCard>
-                </a>
+                <ComposerCard Composer="@composer"/>
             }
         </div>
     }
@@ -28,20 +21,28 @@
 
 @code {
 
-    record PeriodsData(Period Period, IEnumerable<Composer> Composers);
+    private record ComposersGroupedByPeriod(Period Period, IEnumerable<Composer> Composers);
 
-    private IEnumerable<PeriodsData> _periodsData = [];
+    private IEnumerable<Period> _periods = [];
+    private IEnumerable<Composer> _composers = [];
+
+    private IEnumerable<ComposersGroupedByPeriod> ComposersByPeriod => _periods.Select(period =>
+    {
+        return new ComposersGroupedByPeriod(
+            period,
+            _composers.Where(c => c.PeriodId == period.Id).OrderBy(c => c.LastName)
+        );
+    });
+
+    private async Task FetchData()
+    {
+        _periods = await PeriodRepo.GetAllPeriods();
+        _composers = await ComposerRepo.GetAllComposers();
+    }
 
     protected override async Task OnInitializedAsync()
     {
-        var periods = await PeriodRepo.GetAllPeriods();
-        var composers = await ComposerRepo.GetAllComposers();
-        _periodsData = periods.Select(period =>
-        {
-            return new PeriodsData(
-                period,
-                composers.Where(c => c.PeriodId == period.Id).OrderBy(c => c.LastName)
-            );
-        });
+        await FetchData();
     }
+
 }

@@ -1,18 +1,21 @@
 @using OpusClassical.Helpers
 @using OpusClassical.Models
-<div class="mb-3 mr-6">
-    <div>
-        <span>@Composer.LastName,&nbsp;</span>
-        <span class="font-light">@Composer.FirstName</span>
+<a href="@ComposerLink">
+    <div class="mb-3 mr-6">
+        <div>
+            <span>@Composer.LastName,&nbsp;</span>
+            <span class="font-light">@Composer.FirstName</span>
+        </div>
+        <div class="text-xs font-light whitespace-nowrap">
+            <span>@Composer.Countries</span>
+            <span class="vertical-separator"></span>
+            <span>@YearsRange</span>
+        </div>
     </div>
-    <div class="text-xs font-light whitespace-nowrap">
-        <span>@Composer.Countries</span>
-        <span class="vertical-separator"></span>
-        <span>@YearsRange</span>
-    </div>
-</div>
+</a>
 
 @code {
     [Parameter] public required Composer Composer { get; init; }
     string YearsRange => HelperFunctions.FormatYearsRangeString(Composer.YearBorn, Composer.YearDied);
+    string ComposerLink => $"/composer/{Composer.Slug}";
 }

@@ -1,0 +1,12 @@
+@using OpusClassical.Helpers
+@using OpusClassical.Models
+<h2>
+    <span>@Period.Name</span>
+    <span> </span>
+    <span>@YearsRange</span>
+</h2>
+
+@code {
+    [Parameter] public required Period Period { get; init; }
+    private string YearsRange => HelperFunctions.FormatYearsRangeString(Period.YearStart, Period.YearEnd);
+}
