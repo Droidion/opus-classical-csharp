@@ -1,15 +1,15 @@
 @using OpusClassical.Models
 <div class="mb-1.5 leading-5">
     <span>
-        @if (Performer?.FirstName is not null)
+        @if (!string.IsNullOrEmpty(Performer.FirstName))
         {
             @Performer.FirstName<span>&nbsp;</span>
         }
-        @Performer?.LastName&nbsp;
+        @Performer.LastName&nbsp;
     </span>
-    <span class="text-xs font-light">@Performer?.Instrument</span>
+    <span class="text-xs font-light">@Performer.Instrument</span>
 </div>
 
 @code {
-    [Parameter] public Performer? Performer { get; init; }
+    [Parameter] public required Performer Performer { get; init; }
 }

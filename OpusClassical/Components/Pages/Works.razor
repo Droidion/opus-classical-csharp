@@ -45,14 +45,14 @@
 
     record WorksByPeriod(int GenreId, string GenreName, IEnumerable<Work> Works);
 
-    [Parameter] public string? Slug { get; set; }
+    [Parameter] public required string Slug { get; set; }
 
     private Composer? _composer;
     private IEnumerable<WorksByPeriod> _worksByPeriods = [];
 
     protected override async Task OnInitializedAsync()
     {
-        if (Slug is null) return;
+        if (string.IsNullOrWhiteSpace(Slug)) return;
         _composer = await ComposerRepo.GetComposerBySlug(Slug);
         if (_composer is null) return;
         var works = await WorkRepo.GetWorksByComposerId(_composer.Id);
