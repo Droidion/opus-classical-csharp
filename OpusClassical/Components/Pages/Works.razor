@@ -43,7 +43,7 @@
 
 @code {
 
-    record WorksByPeriod(int GenreId, string GenreName, IEnumerable<Work> Works);
+    record WorksByPeriod(string GenreName, IEnumerable<Work> Works);
 
     [Parameter] public required string Slug { get; set; }
 
@@ -58,7 +58,7 @@
         var works = await WorkRepo.GetWorksByComposerId(_composer.Id);
         _worksByPeriods = works
             .GroupBy(w => new { w.GenreId, w.GenreName })
-            .Select(g => new WorksByPeriod(g.Key.GenreId, g.Key.GenreName, g.ToList()))
+            .Select(g => new WorksByPeriod(g.Key.GenreName, g.ToList()))
             .ToList();
     }
 

@@ -42,14 +42,14 @@
 
     record PageData(Work Work, Composer Composer, string ImagesUrl, IEnumerable<RecData> Recordings);
 
-    [Parameter] public string? ComposerSlug { get; set; }
-    [Parameter] public string? WorkId { get; set; }
+    [Parameter] public required string ComposerSlug { get; set; }
+    [Parameter] public required string WorkId { get; set; }
 
     private PageData? _pageData;
 
     protected override async Task OnInitializedAsync()
     {
-        if (ComposerSlug is null) return;
+        if (string.IsNullOrEmpty(ComposerSlug)) return;
         var work = await WorkRepo.GetWorkById(Convert.ToInt32(WorkId));
         var composer = await ComposerRepo.GetComposerBySlug(ComposerSlug);
         if (work is null || composer is null) return;
