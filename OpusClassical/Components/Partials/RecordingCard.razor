@@ -1,0 +1,42 @@
+@using OpusClassical.Helpers
+@using OpusClassical.Models
+<div class="mb-6 mr-8 mt-2 flex min-w-full flex-1 xl:min-w-[450px]">
+    <img
+        class="cover float-left mr-4 h-24 w-24 border border-black/20 xl:mr-6 xl:h-52 xl:w-52 dark:border-white/20"
+        src="@ImagePath()"
+        alt="Recording cover."
+        width="400"
+        height="400"/>
+    <div>
+        @foreach (var performer in Performers)
+        {
+            <PerformerCard Performer="performer"></PerformerCard>
+        }
+        <div class="text-xs font-light">
+            <span>@Recording?.Label</span>
+            <span class="vertical-separator"></span>
+            <span>@HelperFunctions.FormatYearsRangeString(Recording?.YearStart, Recording?.YearFinish)</span>
+            <span class="vertical-separator"></span>
+            <span>@HelperFunctions.FormatWorkLength(Recording?.Length)</span>
+        </div>
+        <div class="flex items-center">
+            @foreach (var link in Links)
+            {
+                <LinkCard Link="link"></LinkCard>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string ImagesUrl { get; init; } = string.Empty;
+    [Parameter] public IEnumerable<Performer> Performers { get; init; } = [];
+    [Parameter] public Recording? Recording { get; init; }
+    [Parameter] public IEnumerable<Link> Links { get; init; } = [];
+
+    string ImagePath()
+    {
+        return ImagesUrl + "/" + Recording?.CoverName;
+    }
+
+}

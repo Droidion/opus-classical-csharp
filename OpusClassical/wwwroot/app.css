@@ -668,6 +668,10 @@ a:hover {
   z-index: 10;
 }
 
+.float-left {
+  float: left;
+}
+
 .mx-3 {
   margin-left: 0.75rem;
   margin-right: 0.75rem;
@@ -683,6 +687,10 @@ a:hover {
 
 .mb-4 {
   margin-bottom: 1rem;
+}
+
+.mb-6 {
+  margin-bottom: 1.5rem;
 }
 
 .ml-2 {
@@ -701,6 +709,10 @@ a:hover {
   margin-right: 1.5rem;
 }
 
+.mr-8 {
+  margin-right: 2rem;
+}
+
 .mt-2 {
   margin-top: 0.5rem;
 }
@@ -715,6 +727,10 @@ a:hover {
 
 .h-16 {
   height: 4rem;
+}
+
+.h-24 {
+  height: 6rem;
 }
 
 .h-8 {
@@ -733,6 +749,10 @@ a:hover {
   width: 3rem;
 }
 
+.w-24 {
+  width: 6rem;
+}
+
 .w-9 {
   width: 2.25rem;
 }
@@ -741,8 +761,16 @@ a:hover {
   width: 100%;
 }
 
+.min-w-full {
+  min-width: 100%;
+}
+
 .max-w-screen-xl {
   max-width: 1280px;
+}
+
+.flex-1 {
+  flex: 1 1 0%;
 }
 
 .grid-rows-\[auto_1fr_auto\] {
@@ -779,6 +807,14 @@ a:hover {
 
 .whitespace-nowrap {
   white-space: nowrap;
+}
+
+.border {
+  border-width: 1px;
+}
+
+.border-black\/20 {
+  border-color: rgb(0 0 0 / 0.2);
 }
 
 .bg-black\/20 {
@@ -837,6 +873,10 @@ a:hover {
     margin-left: 1rem;
   }
 
+  .xl\:mr-6 {
+    margin-right: 1.5rem;
+  }
+
   .xl\:h-16 {
     height: 4rem;
   }
@@ -845,8 +885,20 @@ a:hover {
     height: 6rem;
   }
 
+  .xl\:h-52 {
+    height: 13rem;
+  }
+
   .xl\:w-16 {
     width: 4rem;
+  }
+
+  .xl\:w-52 {
+    width: 13rem;
+  }
+
+  .xl\:min-w-\[450px\] {
+    min-width: 450px;
   }
 
   .xl\:bg-white {
@@ -863,6 +915,10 @@ a:hover {
     font-size: 1rem;
     line-height: 1.5rem;
   }
+}
+
+.dark\:border-white\/20:where(.dark, .dark *) {
+  border-color: rgb(255 255 255 / 0.2);
 }
 
 .dark\:bg-mineshaft:where(.dark, .dark *) {

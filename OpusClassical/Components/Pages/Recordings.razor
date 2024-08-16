@@ -25,6 +25,15 @@
     </div>
     <h2>Recommended Recordings</h2>
     <hr/>
+    <div class="full-width mb-4 flex flex-wrap">
+        @if (_pageData is not null)
+        {
+            @foreach (var recording in _pageData.Recordings)
+            {
+                <RecordingCard Links="recording.Links" Performers="recording.Performers" Recording="recording.Recording" ImagesUrl="@_pageData.ImagesUrl"></RecordingCard>
+            }
+        }
+    </div>
 </div>
 
 @code {
