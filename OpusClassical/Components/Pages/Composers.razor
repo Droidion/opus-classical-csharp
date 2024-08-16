@@ -1,17 +1,18 @@
 @page "/"
 @using OpusClassical.Models
 @using OpusClassical.Repositories
+@inject NavigationManager Navigation
 @inject PeriodRepository PeriodRepo
 @inject ComposerRepository ComposerRepo
 
 <div>
     <h1>Composers</h1>
-    @foreach (var period in ComposersByPeriod)
+    @foreach (var periodWithComposers in PeriodsWithComposers)
     {
-        <PeriodHeader Period="period.Period"/>
+        <PeriodHeader Period="periodWithComposers.Period"/>
         <hr/>
         <div class="mb-4 flex flex-wrap">
-            @foreach (var composer in period.Composers)
+            @foreach (var composer in periodWithComposers.Composers)
             {
                 <ComposerCard Composer="@composer"/>
             }
@@ -21,28 +22,34 @@
 
 @code {
 
-    private record ComposersGroupedByPeriod(Period Period, IEnumerable<Composer> Composers);
+    private record PeriodWithComposers(Period Period, IEnumerable<Composer> Composers);
 
     private IEnumerable<Period> _periods = [];
     private IEnumerable<Composer> _composers = [];
 
-    private IEnumerable<ComposersGroupedByPeriod> ComposersByPeriod => _periods.Select(period =>
-    {
-        return new ComposersGroupedByPeriod(
+    private IEnumerable<PeriodWithComposers> PeriodsWithComposers => _periods.Select(period =>
+        new PeriodWithComposers(
             period,
             _composers.Where(c => c.PeriodId == period.Id).OrderBy(c => c.LastName)
-        );
-    });
+        )
+    );
 
-    private async Task FetchData()
+    private async Task LoadData()
     {
-        _periods = await PeriodRepo.GetAllPeriods();
-        _composers = await ComposerRepo.GetAllComposers();
+        try
+        {
+            _periods = await PeriodRepo.GetAllPeriods();
+            _composers = await ComposerRepo.GetAllComposers();
+        }
+        catch (Exception ex)
+        {
+            Navigation.NavigateTo("/error");
+        }
     }
 
     protected override async Task OnInitializedAsync()
     {
-        await FetchData();
+        await LoadData();
     }
 
 }
