@@ -5,8 +5,8 @@ namespace OpusClassical.Models;
 public class Composer
 {
     public int Id { get; init; }
-    [MaxLength(50)] public string FirstName { get; init; } = string.Empty;
-    [MaxLength(50)] public string LastName { get; init; } = string.Empty;
+    [MaxLength(100)] public string FirstName { get; init; } = string.Empty;
+    [MaxLength(100)] public string LastName { get; init; } = string.Empty;
     public int? YearBorn { get; init; }
     public int? YearDied { get; init; }
     public int PeriodId { get; init; }

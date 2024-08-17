@@ -1,6 +1,7 @@
 using OpusClassical.Components;
 using OpusClassical.Models;
 using OpusClassical.Repositories;
+using OpusClassical.Services;
 using Supabase;
 
 var envConfig = new EnvironmentConfig();
@@ -15,6 +16,8 @@ builder.Services.AddScoped<WorkRepository>();
 builder.Services.AddScoped<RecordingRepository>();
 builder.Services.AddScoped<PerformerRepository>();
 builder.Services.AddScoped<LinkRepository>();
+builder.Services.AddScoped<ComposerSearchRepository>();
+builder.Services.AddScoped<ComposerSearchService>();
 
 var supabase = new Client(envConfig.SupabaseUrl, envConfig.SupabaseKey, new SupabaseOptions
 {

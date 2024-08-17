@@ -10,6 +10,7 @@ public class ApplicationDbContext(EnvironmentConfig env) : DbContext
     public DbSet<Recording> Recordings { get; init; }
     public DbSet<Performer> Performers { get; init; }
     public DbSet<Link> Links { get; init; }
+    public DbSet<ComposerSearchResult> ComposerSearchResults { get; init; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -26,5 +27,6 @@ public class ApplicationDbContext(EnvironmentConfig env) : DbContext
         modelBuilder.Entity<Recording>().ToTable("recordings_with_labels");
         modelBuilder.Entity<Performer>().HasNoKey().ToTable("performers_with_instruments");
         modelBuilder.Entity<Link>().HasNoKey().ToTable("links_with_streamers");
+        modelBuilder.Entity<ComposerSearchResult>().HasNoKey().ToTable("composers");
     }
 }
