@@ -1,0 +1,28 @@
+@using OpusClassical.Helpers
+@using OpusClassical.Models
+<h1>
+    <span>@Composer.FirstName</span>
+    <span>&nbsp;</span>
+    <span>@Composer.LastName</span>
+</h1>
+<div class="mb-4 w-full text-center">
+    <span>@Composer.Countries</span>
+    <span class="vertical-separator"></span>
+    <span>@ComposerYears</span>
+    @if (!string.IsNullOrEmpty(Composer.WikipediaLink))
+    {
+        <span class="vertical-separator"></span>
+        <a href="@Composer.WikipediaLink">Wikipedia</a>
+    }
+    @if (!string.IsNullOrEmpty(Composer.ImslpLink))
+    {
+        <span class="vertical-separator"></span>
+        <a href="@Composer.ImslpLink">IMSLP</a>
+    }
+</div>
+
+@code {
+    [Parameter] public required Composer Composer { get; init; }
+
+    private string ComposerYears => HelperFunctions.FormatYearsRangeString(Composer.YearBorn, Composer.YearDied);
+}

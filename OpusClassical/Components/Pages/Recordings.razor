@@ -1,3 +1,4 @@
+@inject NavigationManager Navigation
 @inject WorkRepository WorkRepo
 @inject ComposerRepository ComposerRepo
 @inject RecordingRepository RecordingRepo
@@ -12,60 +13,70 @@
 
 <div>
     <h1>
-        <span>@HelperFunctions.FormatWorkName(_pageData?.Work.Title, _pageData?.Work.No, _pageData?.Work.Nickname)</span>
+        <span>@WorkName</span>
     </h1>
     <div class="mb-4 w-full text-center">
-        <a href="/composer/@_pageData?.Composer.Slug">
-            @_pageData?.Composer.FirstName&nbsp;@_pageData?.Composer.LastName
+        <a href="/composer/@_composer?.Slug">
+            @_composer?.FirstName&nbsp;@_composer?.LastName
         </a>
-        @if (_pageData?.Work.YearStart is not null || _pageData?.Work.YearFinish is not null)
+        @if (!string.IsNullOrEmpty(WorkYears))
         {
-            <span>, @HelperFunctions.FormatYearsRangeString(_pageData?.Work.YearStart, _pageData?.Work.YearFinish)</span>
+            <span>, @WorkYears</span>
         }
     </div>
     <h2>Recommended Recordings</h2>
     <hr/>
     <div class="full-width mb-4 flex flex-wrap">
-        @if (_pageData is not null)
+        @foreach (var recording in RecordingsWithPerformersAndLinks)
         {
-            @foreach (var recording in _pageData.Recordings)
-            {
-                <RecordingCard Links="recording.Links" Performers="recording.Performers" Recording="recording.Recording" ImagesUrl="@_pageData.ImagesUrl"></RecordingCard>
-            }
+            <RecordingCard Links="recording.Links" Performers="recording.Performers" Recording="recording.Recording" ImagesUrl="@ImagesUrl"/>
         }
     </div>
 </div>
 
 @code {
 
-    record RecData(Recording Recording, IEnumerable<Performer> Performers, IEnumerable<Link> Links);
-
-    record PageData(Work Work, Composer Composer, string ImagesUrl, IEnumerable<RecData> Recordings);
+    record RecordingWithPerformersAndLinks(Recording Recording, IEnumerable<Performer> Performers, IEnumerable<Link> Links);
 
     [Parameter] public required string ComposerSlug { get; set; }
     [Parameter] public required string WorkId { get; set; }
 
-    private PageData? _pageData;
+    private Work? _work;
+    private Composer? _composer;
+    private IEnumerable<Recording> _recordings = [];
+    private IEnumerable<Performer> _performers = [];
+    private IEnumerable<Link> _links = [];
+
+    private string WorkName => HelperFunctions.FormatWorkName(_work?.Title, _work?.No, _work?.Nickname);
+    private string WorkYears => HelperFunctions.FormatYearsRangeString(_work?.YearStart, _work?.YearFinish);
+    private string ImagesUrl => Env.ImagesUrl;
+
+    private IEnumerable<RecordingWithPerformersAndLinks> RecordingsWithPerformersAndLinks => _recordings.Select(r =>
+        new RecordingWithPerformersAndLinks(r, _performers.Where(p => p.RecordingId == r.Id), _links.Where(l => l.RecordingId == r.Id))
+    );
+
+    private async Task LoadData()
+    {
+        try
+        {
+            _work = await WorkRepo.GetWorkById(Convert.ToInt32(WorkId));
+            _composer = await ComposerRepo.GetComposerBySlug(ComposerSlug);
+            if (_work is null || _composer is null) return;
+            _recordings = await RecordingRepo.GetRecordingsByWork(_work.Id);
+            var recordingsIds = _recordings.Select(r => r.Id).ToArray();
+            _performers = await PerformerRepo.GetPerformersByRecordings(recordingsIds);
+            _links = await LinkRepo.GetLinksByRecordings(recordingsIds);
+        }
+        catch (Exception ex)
+        {
+            Navigation.NavigateTo("/error");
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {
         if (string.IsNullOrEmpty(ComposerSlug)) return;
-        var work = await WorkRepo.GetWorkById(Convert.ToInt32(WorkId));
-        var composer = await ComposerRepo.GetComposerBySlug(ComposerSlug);
-        if (work is null || composer is null) return;
-        var recordings = await RecordingRepo.GetRecordingsByWork(work.Id);
-        var recordingsIds = recordings.Select(r => r.Id);
-        var performers = await PerformerRepo.GetPerformersByRecordings(recordingsIds);
-        var links = await LinkRepo.GetLinksByRecordings(recordingsIds);
-        var recData = recordings.Select(r =>
-            new RecData(r, performers.Where(p => p.RecordingId == r.Id), links.Where(l => l.RecordingId == r.Id))
-        );
-        _pageData = new PageData(
-            work,
-            composer,
-            Env.ImagesUrl,
-            recData
-        );
+        await LoadData();
     }
 
 

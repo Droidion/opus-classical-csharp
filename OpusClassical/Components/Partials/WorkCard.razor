@@ -1,34 +1,37 @@
 @using OpusClassical.Helpers
 @using OpusClassical.Models
-<div class="mb-3 mr-6">
-    <div>
-        <span>@WorkName</span>
-    </div>
-    <div class="text-xs font-light">
-        @if (!string.IsNullOrEmpty(CatalogueName))
-        {
-            <span>@CatalogueName</span>
-            @if (!string.IsNullOrEmpty(YearsRange) || !string.IsNullOrEmpty(WorkLength))
+<a href="/composer/@ComposerSlug/work/@Work.Id">
+    <div class="mb-3 mr-6">
+        <div>
+            <span>@WorkName</span>
+        </div>
+        <div class="text-xs font-light">
+            @if (!string.IsNullOrEmpty(CatalogueName))
             {
-                <span class="vertical-separator"></span>
+                <span>@CatalogueName</span>
+                @if (!string.IsNullOrEmpty(YearsRange) || !string.IsNullOrEmpty(WorkLength))
+                {
+                    <span class="vertical-separator"></span>
+                }
             }
-        }
 
-        @if (!string.IsNullOrEmpty(YearsRange))
-        {
-            <span>@YearsRange</span>
-            @if (!string.IsNullOrEmpty(WorkLength))
+            @if (!string.IsNullOrEmpty(YearsRange))
             {
-                <span class="vertical-separator"></span>
+                <span>@YearsRange</span>
+                @if (!string.IsNullOrEmpty(WorkLength))
+                {
+                    <span class="vertical-separator"></span>
+                }
             }
-        }
 
-        @WorkLength
+            @WorkLength
+        </div>
     </div>
-</div>
+</a>
 
 @code {
     [Parameter] public required Work Work { get; init; }
+    [Parameter] public required string ComposerSlug { get; init; }
     string WorkName => HelperFunctions.FormatWorkName(Work.Title, Work.No, Work.Nickname);
     string CatalogueName => HelperFunctions.FormatCatalogueName(Work.CatalogueName, Work.CatalogueNumber, Work.CataloguePostfix);
     string YearsRange => HelperFunctions.FormatYearsRangeString(Work.YearStart, Work.YearFinish);

@@ -1,41 +1,23 @@
 @page "/composer/{Slug}"
-@using OpusClassical.Helpers
 @using OpusClassical.Models
 @using OpusClassical.Repositories
+@inject NavigationManager Navigation
 @inject WorkRepository WorkRepo
 @inject ComposerRepository ComposerRepo
 
 <div>
-    <h1>
-        <span>@_composer?.FirstName</span>
-        <span>&nbsp;</span>
-        <span>@_composer?.LastName</span>
-    </h1>
-    <div class="mb-4 w-full text-center">
-        <span>@_composer?.Countries</span>
-        <span class="vertical-separator"></span>
-        <span>@HelperFunctions.FormatYearsRangeString(_composer?.YearBorn, _composer?.YearDied)</span>
-        @if (_composer?.WikipediaLink is not null)
-        {
-            <span class="vertical-separator"></span>
-            <a href="@_composer?.WikipediaLink">Wikipedia</a>
-        }
-        @if (_composer?.ImslpLink is not null)
-        {
-            <span class="vertical-separator"></span>
-            <a href="@_composer?.ImslpLink">IMSLP</a>
-        }
-    </div>
-    @foreach (var work in _worksByPeriods)
+    @if (_composer is not null)
     {
-        <h2>@work.GenreName</h2>
+        <ComposerDetails Composer="_composer"/>
+    }
+    @foreach (var genre in GenresWithWorks)
+    {
+        <h2>@genre.GenreName</h2>
         <hr/>
         <div class="mb-4 flex flex-wrap">
-            @foreach (var w in work.Works)
+            @foreach (var work in genre.Works)
             {
-                <a href="/composer/@_composer?.Slug/work/@w.Id">
-                    <WorkCard Work="w"></WorkCard>
-                </a>
+                <WorkCard ComposerSlug="@_composer?.Slug" Work="work"/>
             }
         </div>
     }
@@ -43,23 +25,36 @@
 
 @code {
 
-    record WorksByPeriod(string GenreName, IEnumerable<Work> Works);
+    private record GenreWithWorks(string GenreName, IEnumerable<Work> Works);
 
     [Parameter] public required string Slug { get; set; }
 
+    private IEnumerable<Work> _works = [];
     private Composer? _composer;
-    private IEnumerable<WorksByPeriod> _worksByPeriods = [];
+
+    private IEnumerable<GenreWithWorks> GenresWithWorks => _works
+        .GroupBy(w => new { w.GenreId, w.GenreName })
+        .Select(g => new GenreWithWorks(g.Key.GenreName, g.ToList()))
+        .ToList();
+
+    private async Task LoadData()
+    {
+        try
+        {
+            _composer = await ComposerRepo.GetComposerBySlug(Slug);
+            if (_composer is null) return;
+            _works = await WorkRepo.GetWorksByComposerId(_composer.Id);
+        }
+        catch (Exception ex)
+        {
+            Navigation.NavigateTo("/error");
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {
         if (string.IsNullOrWhiteSpace(Slug)) return;
-        _composer = await ComposerRepo.GetComposerBySlug(Slug);
-        if (_composer is null) return;
-        var works = await WorkRepo.GetWorksByComposerId(_composer.Id);
-        _worksByPeriods = works
-            .GroupBy(w => new { w.GenreId, w.GenreName })
-            .Select(g => new WorksByPeriod(g.Key.GenreName, g.ToList()))
-            .ToList();
+        await LoadData();
     }
 
 }

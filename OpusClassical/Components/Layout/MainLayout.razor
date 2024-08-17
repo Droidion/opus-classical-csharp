@@ -1,9 +1,23 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="grid justify-items-center min-h-screen w-full grid-rows-[auto_1fr_auto]">
-    <HeaderBlock></HeaderBlock>
-    <main class="main flex flex-col w-full max-w-screen-xl overflow-auto px-4 pb-4">
-        @Body
-    </main>
-    <FooterBlock></FooterBlock>
-</div>
+@if (_isLoaded)
+{
+    <div class="grid justify-items-center min-h-screen w-full grid-rows-[auto_1fr_auto]">
+        <HeaderBlock></HeaderBlock>
+        <main class="main flex flex-col w-full max-w-screen-xl overflow-auto px-4 pb-4">
+            @Body
+        </main>
+        <FooterBlock></FooterBlock>
+    </div>
+}
+
+@code {
+    private bool _isLoaded;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Yield();
+        _isLoaded = true;
+    }
+
+}
