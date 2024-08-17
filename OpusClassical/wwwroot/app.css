@@ -451,17 +451,7 @@ html {
 }
 
 body {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
   font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --tw-text-opacity: 1;
-  color: rgb(55 55 55 / var(--tw-text-opacity));
-}
-
-body:where(.dark, .dark *) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(26 26 26 / var(--tw-bg-opacity));
-  color: rgb(255 255 255 / 0.8);
 }
 
 h1,
@@ -1007,6 +997,11 @@ a:hover {
   color: rgb(126 85 3 / var(--tw-text-opacity));
 }
 
+.text-mineshaft {
+  --tw-text-opacity: 1;
+  color: rgb(55 55 55 / var(--tw-text-opacity));
+}
+
 .opacity-0 {
   opacity: 0;
 }
@@ -1133,6 +1128,11 @@ a:hover {
 
 .dark\:border-white\/20:where(.dark, .dark *) {
   border-color: rgb(255 255 255 / 0.2);
+}
+
+.dark\:bg-codgray:where(.dark, .dark *) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(26 26 26 / var(--tw-bg-opacity));
 }
 
 .dark\:bg-mineshaft:where(.dark, .dark *) {

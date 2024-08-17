@@ -1,6 +1,48 @@
-﻿<Router AppAssembly="typeof(Program).Assembly">
-    <Found Context="routeData">
-        <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)"/>
-        <FocusOnNavigate RouteData="routeData" Selector="h1"/>
-    </Found>
-</Router>
+﻿@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using OpusClassical.Components.Layout
+@using OpusClassical.Services
+@inject ColorThemeService ColorThemeService
+@inject ProtectedLocalStorage ProtectedLocalStore
+
+@rendermode InteractiveServer
+<div class="@ThemeClass text-mineshaft dark:bg-codgray bg-white dark:text-white/80">
+    <Router AppAssembly="typeof(Program).Assembly">
+        <Found Context="routeData">
+            <RouteView RouteData="routeData" DefaultLayout="typeof(MainLayout)"/>
+            <FocusOnNavigate RouteData="routeData" Selector="h1"/>
+        </Found>
+    </Router>
+</div>
+
+@code {
+
+    private string? ThemeClass => ColorThemeService.IsDarkTheme ? "dark" : null;
+
+    protected override void OnInitialized()
+    {
+        ColorThemeService.OnThemeChanged += OnThemeChanged;
+    }
+
+    private void OnThemeChanged()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        ColorThemeService.OnThemeChanged -= OnThemeChanged;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var cachedTheme = await ProtectedLocalStore.GetAsync<string>(ColorThemeService.ColorThemeKey);
+            if (cachedTheme.Success)
+            {
+                ColorThemeService.IsDarkTheme = cachedTheme.Value == "dark";
+            }
+        }
+    }
+
+}

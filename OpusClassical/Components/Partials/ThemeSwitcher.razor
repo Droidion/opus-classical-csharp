@@ -1,10 +1,16 @@
-<div id="theme-switch" class="text-cinnamon dark:text-lazer flex">
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using OpusClassical.Services
+@inject ColorThemeService ColorThemeService
+@inject ProtectedLocalStorage ProtectedLocalStore
+@rendermode InteractiveServer
+
+<div class="text-cinnamon dark:text-lazer flex">
     <input
         id="switcher"
         type="checkbox"
         name="switcher"
         class="pointer-events-none h-0 w-0 opacity-0"
-        aria-labelledby="switch-label"/>
+        aria-labelledby="switch-label" @onchange="ToggleTheme"/>
     <label
         id="switch-label"
         for="switcher"
@@ -41,3 +47,13 @@
         </svg>
     </label>
 </div>
+
+@code {
+
+    private async Task ToggleTheme()
+    {
+        ColorThemeService.ToggleTheme();
+        await ProtectedLocalStore.SetAsync(ColorThemeService.ColorThemeKey, ColorThemeService.IsDarkTheme ? "dark" : "light");
+    }
+
+}

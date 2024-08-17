@@ -8,7 +8,7 @@
     }
 
     body {
-        @apply text-mineshaft dark:bg-codgray bg-white font-sans dark:text-white/80;
+        @apply font-sans;
     }
 
     h1,

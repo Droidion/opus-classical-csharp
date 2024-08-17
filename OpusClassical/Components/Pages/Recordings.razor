@@ -5,7 +5,6 @@
 @inject PerformerRepository PerformerRepo
 @inject LinkRepository LinkRepo
 @inject EnvironmentConfig Env
-@inject IJSRuntime JS
 @rendermode InteractiveServer
 
 @page "/composer/{ComposerSlug}/work/{WorkId}"
@@ -79,14 +78,6 @@
     {
         if (string.IsNullOrEmpty(ComposerSlug)) return;
         await LoadData();
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await JS.InvokeVoidAsync("loadTheme");
-        }
     }
 
 }
