@@ -50,7 +50,6 @@
     private string WorkName => HelperFunctions.FormatWorkName(_work?.Title, _work?.No, _work?.Nickname);
     private string WorkYears => HelperFunctions.FormatYearsRangeString(_work?.YearStart, _work?.YearFinish);
     private string ImagesUrl => Env.ImagesUrl;
-
     private IEnumerable<RecordingWithPerformersAndLinks> RecordingsWithPerformersAndLinks => _recordings.Select(r =>
         new RecordingWithPerformersAndLinks(r, _performers.Where(p => p.RecordingId == r.Id), _links.Where(l => l.RecordingId == r.Id))
     );
