@@ -58,4 +58,10 @@
         await LoadData();
     }
 
+    protected override async Task OnParametersSetAsync()
+    {
+        if (string.IsNullOrWhiteSpace(Slug)) return;
+        await LoadData();
+    }
+
 }

@@ -10,11 +10,9 @@ public class ColorThemeService
         get => _isDarkTheme;
         set
         {
-            if (_isDarkTheme != value)
-            {
-                _isDarkTheme = value;
-                NotifyThemeChanged();
-            }
+            if (_isDarkTheme == value) return;
+            _isDarkTheme = value;
+            NotifyThemeChanged();
         }
     }
 
