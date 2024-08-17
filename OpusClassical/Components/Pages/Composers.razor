@@ -56,7 +56,10 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await JS.InvokeVoidAsync("loadTheme");
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("loadTheme");
+        }
     }
 
 }
