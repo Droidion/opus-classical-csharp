@@ -4,6 +4,8 @@
 @inject NavigationManager Navigation
 @inject PeriodRepository PeriodRepo
 @inject ComposerRepository ComposerRepo
+@inject IJSRuntime JS
+@rendermode InteractiveServer
 
 <div>
     <h1>Composers</h1>
@@ -50,6 +52,11 @@
     protected override async Task OnInitializedAsync()
     {
         await LoadData();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JS.InvokeVoidAsync("loadTheme");
     }
 
 }

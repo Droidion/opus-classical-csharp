@@ -4,6 +4,8 @@
 @inject NavigationManager Navigation
 @inject WorkRepository WorkRepo
 @inject ComposerRepository ComposerRepo
+@inject IJSRuntime JS
+@rendermode InteractiveServer
 
 <div>
     @if (_composer is not null)
@@ -55,6 +57,11 @@
     {
         if (string.IsNullOrWhiteSpace(Slug)) return;
         await LoadData();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JS.InvokeVoidAsync("loadTheme");
     }
 
 }

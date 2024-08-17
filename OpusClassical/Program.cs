@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using OpusClassical.Components;
 using OpusClassical.Models;
 using OpusClassical.Repositories;
@@ -25,6 +26,8 @@ var supabase = new Client(envConfig.SupabaseUrl, envConfig.SupabaseKey, new Supa
 });
 
 builder.Services.AddSingleton(supabase);
+
+builder.Services.AddBlazoredLocalStorage();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

@@ -32,7 +32,7 @@
         @onclick="HideSearch">
     </div>
     <div
-        class="dark:bg-mineshaft absolute left-[calc(50%-10rem)] top-32 w-80 rounded bg-white text-lg shadow-md"
+        class="bg-white dark:bg-mineshaft absolute left-[calc(50%-10rem)] top-32 w-80 rounded text-lg shadow-md"
         id="search-bar">
         <input
             class="m-1.5 h-8 w-[calc(100%-0.8rem)] appearance-none rounded-sm border-0 bg-black/10 px-1.5 py-4 text-black placeholder:font-light focus:outline-none dark:text-white/80"
@@ -49,7 +49,7 @@
                 @foreach (var composer in _searchResults)
                 {
                     <li
-                        class="flex mx-1.5 my-1 rounded-sm px-2 py-0.5">
+                        class="flex mx-1.5 my-1 rounded-sm px-2 py-0.5 hover:bg-black/10">
                         <a
                             class="flex-grow hover:no-underline"
                             @onclick="() => ClickLink(composer.Slug)">
@@ -59,7 +59,6 @@
                 }
             </ul>
         }
-
     </div>
 }
 
