@@ -2,6 +2,8 @@
 
 Now in C#.
 
+[![CI](https://github.com/Droidion/opus-classical-csharp/actions/workflows/ci.yml/badge.svg)](https://github.com/Droidion/opus-classical-csharp/actions/workflows/ci.yml)
+
 ## Requirements
 
 - [.NET 8](https://dotnet.microsoft.com/en-us/download) or later.
