@@ -38,8 +38,8 @@ public class HelperFunctionsTests
     [InlineData("BWV", null, "p", "")]
     [InlineData(null, 12, "p", "")]
     [InlineData("", 12, "p", "")]
-    public void FormatCatalogueName_ValidInput_ReturnsFormattedString(string catalogueName, int? catalogueNumber,
-        string cataloguePostfix, string expected)
+    public void FormatCatalogueName_ValidInput_ReturnsFormattedString(string? catalogueName, int? catalogueNumber,
+        string? cataloguePostfix, string expected)
     {
         var result = HelperFunctions.FormatCatalogueName(catalogueName, catalogueNumber, cataloguePostfix);
         Assert.Equal(expected, result);
@@ -51,7 +51,7 @@ public class HelperFunctionsTests
     [InlineData("Symphony", null, "Great", "Symphony Great")]
     [InlineData("Symphony", null, null, "Symphony")]
     [InlineData(null, 9, "Great", "")]
-    public void FormatWorkName_ValidInput_ReturnsFormattedString(string workTitle, int? workNo, string workNickname,
+    public void FormatWorkName_ValidInput_ReturnsFormattedString(string? workTitle, int? workNo, string? workNickname,
         string expected)
     {
         var result = HelperFunctions.FormatWorkName(workTitle, workNo, workNickname);
