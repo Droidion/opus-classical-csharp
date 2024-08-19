@@ -7,7 +7,7 @@ public static class HelperFunctions
     /// </summary>
     private static bool IsValidYear(int num)
     {
-        return num is > 1 and < 10000;
+        return num is > 999 and < 10000;
     }
 
     /// <summary>

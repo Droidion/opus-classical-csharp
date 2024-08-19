@@ -11,7 +11,7 @@ public class HelperFunctionsTests
     [InlineData(null, 1805, "1805")]
     [InlineData(null, null, "")]
     [InlineData(10000, 20000, "")]
-    [InlineData(-100, 200, "200")]
+    [InlineData(-100, 200, "")]
     public void FormatYearsRangeString_ValidInput_ReturnsFormattedString(int? startYear, int? finishYear,
         string expected)
     {
