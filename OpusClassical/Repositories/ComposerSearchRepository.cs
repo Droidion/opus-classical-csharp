@@ -3,7 +3,12 @@ using OpusClassical.Models;
 
 namespace OpusClassical.Repositories;
 
-public class ComposerSearchRepository(ApplicationDbContext context)
+public interface IComposerSearchRepository
+{
+    Task<IEnumerable<ComposerSearchResult>> GetComposerSearchResults();
+}
+
+public class ComposerSearchRepository(ApplicationDbContext context) : IComposerSearchRepository
 {
     public async Task<IEnumerable<ComposerSearchResult>> GetComposerSearchResults()
     {

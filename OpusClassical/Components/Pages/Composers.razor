@@ -2,9 +2,9 @@
 @using OpusClassical.Models
 @using OpusClassical.Repositories
 @inject NavigationManager Navigation
-@inject PeriodRepository PeriodRepo
-@inject ComposerRepository ComposerRepo
-@rendermode InteractiveServer
+@inject IPeriodRepository PeriodRepo
+@inject IComposerRepository ComposerRepo
+@inject ILogger<Composers> Logger
 
 <div>
     <h1>Composers</h1>
@@ -44,6 +44,7 @@
         }
         catch (Exception ex)
         {
+            Logger.LogError(ex, "Error loading data for composers page");
             Navigation.NavigateTo("/error");
         }
     }

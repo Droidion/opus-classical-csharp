@@ -3,7 +3,12 @@ using OpusClassical.Models;
 
 namespace OpusClassical.Repositories;
 
-public class RecordingRepository(ApplicationDbContext context)
+public interface IRecordingRepository
+{
+    Task<IEnumerable<Recording>> GetRecordingsByWork(int workId);
+}
+
+public class RecordingRepository(ApplicationDbContext context) : IRecordingRepository
 {
     public async Task<IEnumerable<Recording>> GetRecordingsByWork(int workId)
     {

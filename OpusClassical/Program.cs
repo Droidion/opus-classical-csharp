@@ -10,15 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton(envConfig);
 builder.Services.AddDbContext<ApplicationDbContext>();
-builder.Services.AddScoped<PeriodRepository>();
-builder.Services.AddScoped<ComposerRepository>();
-builder.Services.AddScoped<WorkRepository>();
-builder.Services.AddScoped<RecordingRepository>();
-builder.Services.AddScoped<PerformerRepository>();
-builder.Services.AddScoped<LinkRepository>();
-builder.Services.AddScoped<ComposerSearchRepository>();
-builder.Services.AddScoped<ComposerSearchService>();
-builder.Services.AddSingleton<ColorThemeService>();
+builder.Services.AddScoped<IPeriodRepository, PeriodRepository>();
+builder.Services.AddScoped<IComposerRepository, ComposerRepository>();
+builder.Services.AddScoped<IWorkRepository, WorkRepository>();
+builder.Services.AddScoped<IRecordingRepository, RecordingRepository>();
+builder.Services.AddScoped<IPerformerRepository, PerformerRepository>();
+builder.Services.AddScoped<ILinkRepository, LinkRepository>();
+builder.Services.AddScoped<IComposerSearchRepository, ComposerSearchRepository>();
+builder.Services.AddScoped<IComposerSearchService, ComposerSearchService>();
+builder.Services.AddScoped<ColorThemeService>();
 
 var supabase = new Client(envConfig.SupabaseUrl, envConfig.SupabaseKey, new SupabaseOptions
 {
@@ -26,6 +26,9 @@ var supabase = new Client(envConfig.SupabaseUrl, envConfig.SupabaseKey, new Supa
 });
 
 builder.Services.AddSingleton(supabase);
+
+builder.Logging.SetMinimumLevel(LogLevel.Debug);
+builder.Logging.AddConsole();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

@@ -3,7 +3,12 @@ using OpusClassical.Models;
 
 namespace OpusClassical.Repositories;
 
-public class PeriodRepository(ApplicationDbContext context)
+public interface IPeriodRepository
+{
+    Task<IEnumerable<Period>> GetAllPeriods();
+}
+
+public class PeriodRepository(ApplicationDbContext context) : IPeriodRepository
 {
     public async Task<IEnumerable<Period>> GetAllPeriods()
     {

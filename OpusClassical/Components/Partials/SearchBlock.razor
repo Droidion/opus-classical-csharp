@@ -4,8 +4,8 @@
 @using OpusClassical.Services
 @rendermode InteractiveServer
 @inject NavigationManager Navigation
-@inject ComposerSearchRepository ComposerSearchRepo
-@inject ComposerSearchService ComposerSearchService
+@inject IComposerSearchRepository ComposerSearchRepo
+@inject IComposerSearchService ComposerSearchService
 
 <div
     class="search-button label cursor-pointer duration-150 hover:scale-125"
@@ -86,7 +86,7 @@
     {
         if (e.Value is null) return;
         var value = e.Value.ToString();
-        if (!value.IsNullOrEmpty())
+        if (value is not null && value.Length > 2)
         {
             _searchResults = ComposerSearchService.GetSearch(value);
         }
@@ -94,7 +94,7 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        _searchInput?.FocusAsync();
+        await Task.Run(() => _searchInput?.FocusAsync());
     }
 
 }

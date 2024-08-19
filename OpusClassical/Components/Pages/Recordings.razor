@@ -1,11 +1,11 @@
 @inject NavigationManager Navigation
-@inject WorkRepository WorkRepo
-@inject ComposerRepository ComposerRepo
-@inject RecordingRepository RecordingRepo
-@inject PerformerRepository PerformerRepo
-@inject LinkRepository LinkRepo
+@inject IWorkRepository WorkRepo
+@inject IComposerRepository ComposerRepo
+@inject IRecordingRepository RecordingRepo
+@inject IPerformerRepository PerformerRepo
+@inject ILinkRepository LinkRepo
 @inject EnvironmentConfig Env
-@rendermode InteractiveServer
+@inject ILogger<Recordings> Logger
 
 @page "/composer/{ComposerSlug}/work/{WorkId}"
 @using OpusClassical.Helpers
@@ -70,6 +70,7 @@
         }
         catch (Exception ex)
         {
+            Logger.LogError(ex, "Error loading data for composers page");
             Navigation.NavigateTo("/error");
         }
     }

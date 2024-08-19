@@ -3,7 +3,13 @@ using OpusClassical.Models;
 
 namespace OpusClassical.Repositories;
 
-public class WorkRepository(ApplicationDbContext context)
+public interface IWorkRepository
+{
+    Task<Work?> GetWorkById(int workId);
+    Task<IEnumerable<Work>> GetWorksByComposerId(int composerId);
+}
+
+public class WorkRepository(ApplicationDbContext context) : IWorkRepository
 {
     public async Task<Work?> GetWorkById(int workId)
     {

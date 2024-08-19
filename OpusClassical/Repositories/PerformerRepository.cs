@@ -3,7 +3,12 @@ using OpusClassical.Models;
 
 namespace OpusClassical.Repositories;
 
-public class PerformerRepository(ApplicationDbContext context)
+public interface IPerformerRepository
+{
+    Task<IEnumerable<Performer>> GetPerformersByRecordings(IEnumerable<int> recordingIds);
+}
+
+public class PerformerRepository(ApplicationDbContext context) : IPerformerRepository
 {
     public async Task<IEnumerable<Performer>> GetPerformersByRecordings(IEnumerable<int> recordingIds)
     {

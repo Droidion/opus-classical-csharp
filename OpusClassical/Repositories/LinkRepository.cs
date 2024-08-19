@@ -3,7 +3,12 @@ using OpusClassical.Models;
 
 namespace OpusClassical.Repositories;
 
-public class LinkRepository(ApplicationDbContext context)
+public interface ILinkRepository
+{
+    Task<IEnumerable<Link>> GetLinksByRecordings(IEnumerable<int> recordingIds);
+}
+
+public class LinkRepository(ApplicationDbContext context) : ILinkRepository
 {
     public async Task<IEnumerable<Link>> GetLinksByRecordings(IEnumerable<int> recordingIds)
     {

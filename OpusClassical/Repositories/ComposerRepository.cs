@@ -3,7 +3,13 @@ using OpusClassical.Models;
 
 namespace OpusClassical.Repositories;
 
-public class ComposerRepository(ApplicationDbContext context)
+public interface IComposerRepository
+{
+    Task<IEnumerable<Composer>> GetAllComposers();
+    Task<Composer?> GetComposerBySlug(string slug);
+}
+
+public class ComposerRepository(ApplicationDbContext context) : IComposerRepository
 {
     public async Task<IEnumerable<Composer>> GetAllComposers()
     {
