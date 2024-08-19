@@ -1,6 +1,6 @@
 @using OpusClassical.Helpers
 @using OpusClassical.Models
-<a href="@ComposerLink">
+<NavLink href="@ComposerLink">
     <div class="mb-3 mr-6">
         <div>
             <span>@Composer.LastName,&nbsp;</span>
@@ -12,7 +12,7 @@
             <span>@YearsRange</span>
         </div>
     </div>
-</a>
+</NavLink>
 
 @code {
     [Parameter] public required Composer Composer { get; init; }

@@ -6,6 +6,8 @@
 @inject IComposerRepository ComposerRepo
 @inject ILogger<Works> Logger
 
+<PageTitle>@PageTitle | Opus Classical</PageTitle>
+
 <div>
     @if (_composer is not null)
     {
@@ -32,6 +34,8 @@
 
     private IEnumerable<Work> _works = [];
     private Composer? _composer;
+
+    private string? PageTitle => _composer?.LastName;
 
     private IEnumerable<GenreWithWorks> GenresWithWorks => _works
         .GroupBy(w => new { w.GenreId, w.GenreName })

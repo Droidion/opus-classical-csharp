@@ -6,20 +6,21 @@
 @inject ILinkRepository LinkRepo
 @inject EnvironmentConfig Env
 @inject ILogger<Recordings> Logger
-
 @page "/composer/{ComposerSlug}/work/{WorkId}"
 @using OpusClassical.Helpers
 @using OpusClassical.Models
 @using OpusClassical.Repositories
+
+<PageTitle>@WorkName | Opus Classical</PageTitle>
 
 <div>
     <h1>
         <span>@WorkName</span>
     </h1>
     <div class="mb-4 w-full text-center">
-        <a href="/composer/@_composer?.Slug">
+        <NavLink href="@Link">
             @_composer?.FirstName&nbsp;@_composer?.LastName
-        </a>
+        </NavLink>
         @if (!string.IsNullOrEmpty(WorkYears))
         {
             <span>, @WorkYears</span>
@@ -51,6 +52,7 @@
     private string WorkName => HelperFunctions.FormatWorkName(_work?.Title, _work?.No, _work?.Nickname);
     private string WorkYears => HelperFunctions.FormatYearsRangeString(_work?.YearStart, _work?.YearFinish);
     private string ImagesUrl => Env.ImagesUrl;
+    string Link => $"/composer/{ComposerSlug}";
 
     private IEnumerable<RecordingWithPerformersAndLinks> RecordingsWithPerformersAndLinks => _recordings.Select(r =>
         new RecordingWithPerformersAndLinks(r, _performers.Where(p => p.RecordingId == r.Id), _links.Where(l => l.RecordingId == r.Id))

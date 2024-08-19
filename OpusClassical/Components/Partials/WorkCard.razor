@@ -1,6 +1,6 @@
 @using OpusClassical.Helpers
 @using OpusClassical.Models
-<a href="/composer/@ComposerSlug/work/@Work.Id">
+<NavLink href="@Link">
     <div class="mb-3 mr-6">
         <div>
             <span>@WorkName</span>
@@ -27,7 +27,7 @@
             @WorkLength
         </div>
     </div>
-</a>
+</NavLink>
 
 @code {
     [Parameter] public required Work Work { get; init; }
@@ -36,4 +36,5 @@
     string CatalogueName => HelperFunctions.FormatCatalogueName(Work.CatalogueName, Work.CatalogueNumber, Work.CataloguePostfix);
     string YearsRange => HelperFunctions.FormatYearsRangeString(Work.YearStart, Work.YearFinish);
     string WorkLength => HelperFunctions.FormatWorkLength(Work.AverageMinutes);
+    string Link => $"/composer/{ComposerSlug}/work/{Work.Id}";
 }
