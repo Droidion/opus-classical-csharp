@@ -6,7 +6,7 @@ tasks:
       - dotnet watch
   tailwind:
     cmds:
-      - tailwindcss -i ./Assets/app.css -o ./wwwroot/app.css
+      - tailwindcss -i ./Assets/app.css -o ./wwwroot/app.css --watch
   dev:
     cmds:
       - task --parallel tailwind dotnet

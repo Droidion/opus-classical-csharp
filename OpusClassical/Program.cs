@@ -18,7 +18,7 @@ builder.Services.AddScoped<IPerformerRepository, PerformerRepository>();
 builder.Services.AddScoped<ILinkRepository, LinkRepository>();
 builder.Services.AddScoped<IComposerSearchRepository, ComposerSearchRepository>();
 builder.Services.AddScoped<IComposerSearchService, ComposerSearchService>();
-builder.Services.AddScoped<ColorThemeService>();
+builder.Services.AddScoped<IColorThemeService, ColorThemeService>();
 
 var supabase = new Client(envConfig.SupabaseUrl, envConfig.SupabaseKey, new SupabaseOptions
 {

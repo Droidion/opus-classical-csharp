@@ -2,7 +2,16 @@ using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 
 namespace OpusClassical.Services;
 
+public interface IColorThemeService
+{
+    bool IsDarkTheme { get; }
+    Task ToggleTheme();
+    Task RestoreChosenTheme();
+    event Action? OnThemeChanged;
+}
+
 public class ColorThemeService(ProtectedLocalStorage protectedLocalStore, ILogger<ColorThemeService> logger)
+    : IColorThemeService
 {
     private const string ColorThemeKey = "color-theme";
     private bool _isDarkTheme;
