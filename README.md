@@ -6,9 +6,9 @@ Now in C#.
 
 ## Requirements
 
-- [.NET 8](https://dotnet.microsoft.com/en-us/download) or later.
-- [Task](https://taskfile.dev/) for task running.
-- [Tailwind](https://tailwindcss.com/docs/installation) globally available
+- [.NET 9](https://dotnet.microsoft.com/en-us/download) (because of better support for Websockets in Blazor.
+- [Task](https://taskfile.dev/) for task running. Optionally, can run tasks from `Taskfile.yml` manually.
+- [Tailwind](https://tailwindcss.com/docs/installation) globally available.
 
 ## Run in dev mode
 
